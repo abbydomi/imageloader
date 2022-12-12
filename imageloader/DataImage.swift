@@ -1,0 +1,24 @@
+//
+//  DataImage.swift
+//  imageloader
+//
+//  Created by Abby Dominguez on 12/12/22.
+//
+
+import UIKit
+class DataImage: UIImageView{
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+          URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+       }
+       func downloadImage(from url: URL) {
+          getData(from: url) {
+             data, response, error in
+             guard let data = data, error == nil else {
+                return
+             }
+             DispatchQueue.main.async() {
+                self.image = UIImage(data: data)
+             }
+          }
+       }
+}
